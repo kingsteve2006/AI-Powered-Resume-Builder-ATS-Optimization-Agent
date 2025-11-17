@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .form-section { background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        textarea { height: 100px; resize: vertical; }
+        .btn { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .btn:hover { background: #0056b3; }
+        .btn-secondary { background: #6c757d; margin-left: 10px; }
+        .btn-secondary:hover { background: #545b62; }
+        .resume-preview { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .resume-header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+        .resume-name { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+        .resume-contact { color: #666; font-size: 14px; }
+        .resume-section { margin-bottom: 25px; }
+        .section-title { font-size: 18px; font-weight: bold; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 15px; }
+        .job-item { margin-bottom: 20px; }
+        .job-title { font-weight: bold; font-size: 16px; }
+        .job-company { font-style: italic; color: #666; }
+        .job-dates { float: right; color: #666; font-size: 14px; }
+        .job-description { margin-top: 8px; white-space: pre-line; }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag { background: #f0f0f0; padding: 5px 10px; border-radius: 15px; font-size: 14px; }
+        .hidden { display: none; }
+        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media (max-width: 768px) { .two-columns { grid-template-columns: 1fr; } }
+        @media print { body { background: white; } .form-section, .btn { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 30px; color: #333;">🚀 Resume Generator</h1>
+        
+        <div class="two-columns">
+            <div>
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" id="phone" placeholder="+1 (555) 123-4567" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <input type="text" id="location" placeholder="New York, NY" required>
+                    </div>
+                    <div class="form-group">
+                        <label>LinkedIn</label>
+                        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/johndoe">
+                    </div>
+                </div>
+
+                <!-- Professional Summary -->
+                <div class="form-section">
+                    <h2>Professional Summary</h2>
+                    <div class="form-group">
+                        <label>Summary *</label>
+                        <textarea id="summary" placeholder="Brief professional summary highlighting your key skills and experience..." required></textarea>
+                    </div>
+                </div>
+
+                <!-- Work Experience -->
+                <div class="form-section">
+                    <h2>Work Experience</h2>
+                    <div id="experience-container">
+                        <div class="experience-item">
+                            <div class="form-group">
+                                <label>Job Title</label>
+                                <input type="text" class="exp-title" placeholder="Software Engineer">
+                            </div>
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" class="exp-company" placeholder="Tech Corp">
+                            </div>
+                            <div class="form-group">
+                                <label>Dates</label>
+                                <input type="text" class="exp-dates" placeholder="2020 - Present">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="exp-description" placeholder="• Led development of web applications&#10;• Improved performance by 40%&#10;• Mentored junior developers"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="addExperience()">+ Add Experience</button>
+                </div>
+
+                <!-- Education -->
+                <div class="form-section">
+                    <h2>Education</h2>
+                    <div id="education-container">
+                        <div class="education-item">
+                            <div class="form-group">
+                                <label>Degree</label>
+                                <input type="text" class="edu-degree" placeholder="Bachelor of Science in Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label>School</label>
+                                <input type="text" class="edu-school" placeholder="University of Technology">
+                            </div>
+                            <div class="form-group">
+                                <label>Year</label>
+                                <input type="text" class="edu-year" placeholder="2020">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="addEducation()">+ Add Education</button>
+                </div>
+
+                <!-- Skills -->
+                <div class="form-section">
+                    <h2>Skills</h2>
+                    <div class="form-group">
+                        <label>Skills (comma-separated) *</label>
+                        <textarea id="skills" placeholder="JavaScript, Python, React, Node.js, AWS, Docker" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <button type="button" class="btn" onclick="generateResume()">🎯 Generate Resume</button>
+                    <button type="button" class="btn btn-secondary" onclick="fillSampleData()">📝 Use Sample Data</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.print()">🖨️ Print/Save PDF</button>
+                </div>
+            </div>
+
+            <!-- Resume Preview -->
+            <div>
+                <div id="resume-preview" class="resume-preview">
+                    <div class="resume-header">
+                        <div class="resume-name">Your Name</div>
+                        <div class="resume-contact">your.email@example.com | +1 (555) 123-4567 | Your Location</div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <div class="section-title">Professional Summary</div>
+                        <p>Your professional summary will appear here...</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <div class="section-title">Work Experience</div>
+                        <div class="job-item">
+                            <div class="job-title">Job Title</div>
+                            <div class="job-company">Company Name <span class="job-dates">Dates</span></div>
+                            <div class="job-description">Job description will appear here...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <div class="section-title">Education</div>
+                        <div>Your education will appear here...</div>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <div class="section-title">Skills</div>
+                        <div class="skills-container">
+                            <span class="skill-tag">Your skills will appear here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addExperience() {
+            const container = document.getElementById('experience-container');
+            const newExp = document.createElement('div');
+            newExp.className = 'experience-item';
+            newExp.innerHTML = `
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" class="exp-title" placeholder="Software Engineer">
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" class="exp-company" placeholder="Tech Corp">
+                </div>
+                <div class="form-group">
+                    <label>Dates</label>
+                    <input type="text" class="exp-dates" placeholder="2020 - Present">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="exp-description" placeholder="• Led development of web applications"></textarea>
+                </div>
+                <button type="button" class="btn-secondary" onclick="this.parentElement.remove()">Remove</button>
+                <hr style="margin: 20px 0;">
+            `;
+            container.appendChild(newExp);
+        }
+
+        function addEducation() {
+            const container = document.getElementById('education-container');
+            const newEdu = document.createElement('div');
+            newEdu.className = 'education-item';
+            newEdu.innerHTML = `
+                <div class="form-group">
+                    <label>Degree</label>
+                    <input type="text" class="edu-degree" placeholder="Bachelor of Science">
+                </div>
+                <div class="form-group">
+                    <label>School</label>
+                    <input type="text" class="edu-school" placeholder="University Name">
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <input type="text" class="edu-year" placeholder="2020">
+                </div>
+                <button type="button" class="btn-secondary" onclick="this.parentElement.remove()">Remove</button>
+                <hr style="margin: 20px 0;">
+            `;
+            container.appendChild(newEdu);
+        }
+
+        function generateResume() {
+            const name = document.getElementById('name').value || 'Your Name';
+            const email = document.getElementById('email').value || 'your.email@example.com';
+            const phone = document.getElementById('phone').value || '+1 (555) 123-4567';
+            const location = document.getElementById('location').value || 'Your Location';
+            const linkedin = document.getElementById('linkedin').value;
+            const summary = document.getElementById('summary').value || 'Your professional summary will appear here...';
+            const skills = document.getElementById('skills').value || 'Your skills will appear here';
+
+            // Update header
+            document.querySelector('.resume-name').textContent = name;
+            const contactInfo = `${email} | ${phone} | ${location}${linkedin ? ' | ' + linkedin : ''}`;
+            document.querySelector('.resume-contact').textContent = contactInfo;
+
+            // Update summary
+            document.querySelector('.resume-section p').textContent = summary;
+
+            // Update experience
+            const expItems = document.querySelectorAll('.experience-item');
+            const expSection = document.querySelector('.resume-section:nth-child(3)');
+            expSection.innerHTML = '<div class="section-title">Work Experience</div>';
+            
+            expItems.forEach(item => {
+                const title = item.querySelector('.exp-title').value;
+                const company = item.querySelector('.exp-company').value;
+                const dates = item.querySelector('.exp-dates').value;
+                const description = item.querySelector('.exp-description').value;
+                
+                if (title || company) {
+                    const jobDiv = document.createElement('div');
+                    jobDiv.className = 'job-item';
+                    jobDiv.innerHTML = `
+                        <div class="job-title">${title}</div>
+                        <div class="job-company">${company} <span class="job-dates">${dates}</span></div>
+                        <div class="job-description">${description}</div>
+                    `;
+                    expSection.appendChild(jobDiv);
+                }
+            });
+
+            // Update education
+            const eduItems = document.querySelectorAll('.education-item');
+            const eduSection = document.querySelector('.resume-section:nth-child(4)');
+            eduSection.innerHTML = '<div class="section-title">Education</div>';
+            
+            eduItems.forEach(item => {
+                const degree = item.querySelector('.edu-degree').value;
+                const school = item.querySelector('.edu-school').value;
+                const year = item.querySelector('.edu-year').value;
+                
+                if (degree || school) {
+                    const eduDiv = document.createElement('div');
+                    eduDiv.innerHTML = `<strong>${degree}</strong> - ${school} (${year})`;
+                    eduSection.appendChild(eduDiv);
+                }
+            });
+
+            // Update skills
+            const skillsSection = document.querySelector('.skills-container');
+            skillsSection.innerHTML = '';
+            if (skills) {
+                skills.split(',').forEach(skill => {
+                    const skillSpan = document.createElement('span');
+                    skillSpan.className = 'skill-tag';
+                    skillSpan.textContent = skill.trim();
+                    skillsSection.appendChild(skillSpan);
+                });
+            }
+        }
+
+        function fillSampleData() {
+            document.getElementById('name').value = 'John Doe';
+            document.getElementById('email').value = 'john.doe@email.com';
+            document.getElementById('phone').value = '+1 (555) 123-4567';
+            document.getElementById('location').value = 'New York, NY';
+            document.getElementById('linkedin').value = 'https://linkedin.com/in/johndoe';
+            document.getElementById('summary').value = 'Results-driven software engineer with 5+ years of experience developing scalable web applications. Proven track record of leading cross-functional teams and delivering high-quality solutions that improve user experience and drive business growth.';
+            document.getElementById('skills').value = 'JavaScript, Python, React, Node.js, AWS, Docker, Git, SQL, MongoDB, REST APIs';
+            
+            // Fill first experience
+            document.querySelector('.exp-title').value = 'Senior Software Engineer';
+            document.querySelector('.exp-company').value = 'Tech Corp';
+            document.querySelector('.exp-dates').value = '2022 - Present';
+            document.querySelector('.exp-description').value = '• Led development of microservices architecture serving 100K+ users\n• Improved application performance by 40% through code optimization\n• Mentored 3 junior developers and conducted code reviews';
+            
+            // Fill education
+            document.querySelector('.edu-degree').value = 'Bachelor of Science in Computer Science';
+            document.querySelector('.edu-school').value = 'University of Technology';
+            document.querySelector('.edu-year').value = '2020';
+            
+            generateResume();
+        }
+
+        // Auto-generate on input
+        document.addEventListener('input', generateResume);
+        
+        // Generate initial resume
+        generateResume();
+    </script>
+</body>
+</html>
